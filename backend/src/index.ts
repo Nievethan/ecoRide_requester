@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { connectDB } from './database';
 import cors from 'cors';
 
 // Initialize the Express application
@@ -13,6 +14,9 @@ app.use(express.json()); // Allows server to read JSON data
 app.get('/', (req: Request, res: Response) => {
   res.send('ecoRide backend is successfully running!');
 });
+
+// Connect to the database before starting the server
+connectDB();
 
 // Start the server
 app.listen(PORT, () => {
