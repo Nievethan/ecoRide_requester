@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import { connectDB } from './database';
 import cors from 'cors';
+import { User, Ride } from './models';
+import sequelize from './database';
 
 // Initialize the Express application
 const app = express();
@@ -17,6 +19,11 @@ app.get('/', (req: Request, res: Response) => {
 
 // Connect to the database before starting the server
 connectDB();
+
+// Sync the models with the database
+sequelize.sync({ alter: true }) 
+  .then(() => console.log('Database synced successfully!'))
+  .catch((err) => console.error('Error syncing database:', err));
 
 // Start the server
 app.listen(PORT, () => {
