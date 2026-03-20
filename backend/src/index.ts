@@ -3,6 +3,8 @@ import { connectDB } from './database';
 import cors from 'cors';
 import { User, Ride } from './models';
 import sequelize from './database';
+import rideRoutes from './routes/rideRoutes';
+import userRoutes from './routes/userRoutes';
 
 // Initialize the Express application
 const app = express();
@@ -11,6 +13,8 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors()); // Allows frontend to communicate with backend
 app.use(express.json()); // Allows server to read JSON data
+app.use('/api/rides', rideRoutes); // Use ride routes for /api/rides endpoints
+app.use('/api/users', userRoutes); // Use user routes for /api/users endpoints
 
 // A basic test route
 app.get('/', (req: Request, res: Response) => {
