@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Ride } from '../models';
+import { Ride, User } from '../models';
 
 export const createRide = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -18,8 +18,31 @@ export const createRide = async (req: Request, res: Response): Promise<void> => 
             message: 'Ride requested successfully!',
             ride: newRide
         });
-    } catch (error) {
+    } 
+    catch (error) {
         console.error('Error creating ride:', error);
         res.status(500).json({ error: 'Failed to request ride' });
+    }
+};
+
+export const getAllRides = async (req: Request, res: Response): Promise<void> => {
+    try {
+        // Find rides and attach user data to each ride
+        const rides = await Ride.findAll({
+            include: [
+                {
+                    model: User,
+                    as: 'rider',
+                    attributes: ['name', 'email']
+                }
+            ]
+        });
+
+        // Send "OK" status and rides data as JSON response
+        res.status(200).json(rides);
+
+    } catch (error) {
+        console.error('Error fetching rides:', error);
+        res.status(500).json({ error: 'Failed to fetch rides' });
     }
 };
