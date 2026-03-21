@@ -3,7 +3,7 @@ import cors from 'cors';
 import rideRoutes from './routes/rideRoutes';
 import userRoutes from './routes/userRoutes';
 
-
+// Initialize Express application
 const app = express();
 
 // Middleware
